@@ -33,7 +33,9 @@ export default function ManualForm() {
       const response = await axios.post(`${API_URL}/predict`, formattedData)
       setResult(response.data)
     } catch (err) {
-      setError(err.response?.data?.error || 'Connection error. Please try again.')
+      const apiError = err.response?.data?.error
+      const apiDetails = err.response?.data?.details
+      setError(apiDetails ? `${apiError}: ${apiDetails}` : (apiError || 'Connection error. Please try again.'))
     } finally {
       setLoading(false)
     }

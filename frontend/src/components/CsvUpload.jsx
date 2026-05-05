@@ -42,7 +42,9 @@ export default function CsvUpload() {
       const response = await axios.post(`${VITE_API_URL}/predict_csv`, formData)
       setResult(response.data)
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to process the dataset. Check format.')
+      const apiError = err.response?.data?.error
+      const apiDetails = err.response?.data?.details
+      setError(apiDetails ? `${apiError}: ${apiDetails}` : (apiError || 'Failed to process the dataset. Check format.'))
     } finally {
       setLoading(false)
     }
