@@ -10,7 +10,7 @@ CORS(app)
 
 # Load the actual model pipeline
 # The model already contains a ColumnTransformer for preprocessing and an OrdinalEncoder
-MODEL_PATH = r"c:\Users\gangw\Desktop\Ai&DS\Model\placement_model.pkl"
+MODEL_PATH = r"c:\Users\gangw\Desktop\Ai&DS\backend\Model\placement_model.pkl"
 try:
     model = joblib.load(MODEL_PATH)
 except Exception as e:

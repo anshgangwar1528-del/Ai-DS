@@ -3,3 +3,5 @@ flask-cors
 pandas
 scikit-learn==1.3.0
 joblib
+gunicorn
+openpyxl
