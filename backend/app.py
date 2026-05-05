@@ -26,6 +26,29 @@ except Exception as e:
     print(f"Error loading model from {MODEL_PATH}: {loading_error}")
     model = None
 
+# Patch for scikit-learn version mismatch (the '_name_to_fitted_passthrough' error)
+if model is not None:
+    try:
+        from sklearn.pipeline import Pipeline
+        from sklearn.compose import ColumnTransformer
+        
+        def patch_transformer(transformer):
+            if isinstance(transformer, ColumnTransformer):
+                if not hasattr(transformer, '_name_to_fitted_passthrough'):
+                    transformer._name_to_fitted_passthrough = {}
+            if hasattr(transformer, 'transformers_'):
+                for name, trans, cols in transformer.transformers_:
+                    patch_transformer(trans)
+
+        if isinstance(model, Pipeline):
+            for step_name, step_obj in model.named_steps.items():
+                patch_transformer(step_obj)
+        else:
+            patch_transformer(model)
+        print("Applied compatibility patches to the model.")
+    except Exception as patch_err:
+        print(f"Compatibility patch failed (may not be needed): {patch_err}")
+
 # Expected features based on the model's pipeline
 EXPECTED_FEATURES = [
     'Age', 'CGPA', 'Internships', 'Projects', 'Coding_Skills',
