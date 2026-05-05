@@ -5,3 +5,4 @@ scikit-learn==1.3.0
 joblib
 gunicorn
 openpyxl
+numpy<2.0.0
