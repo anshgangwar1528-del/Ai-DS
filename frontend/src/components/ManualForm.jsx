@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { Loader2, CheckCircle2, XCircle, TrendingUp } from 'lucide-react'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://student-placement-prediction-qett.onrender.com'
 
 export default function ManualForm() {
   const { register, handleSubmit, formState: { errors } } = useForm()

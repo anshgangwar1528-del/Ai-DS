@@ -8,11 +8,19 @@ import io
 app = Flask(__name__)
 CORS(app)
 
-# Load the actual model pipeline from a repo-relative path.
+# Load the actual model pipeline from a path relative to this script.
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, 'Model', 'placement_model.pkl')
+
 try:
-    model = joblib.load(open('Model/placement_model.pkl', 'rb'))
+    if os.path.exists(MODEL_PATH):
+        model = joblib.load(open(MODEL_PATH, 'rb'))
+        print(f"Model successfully loaded from {MODEL_PATH}")
+    else:
+        print(f"Model file not found at {MODEL_PATH}")
+        model = None
 except Exception as e:
-    print(f"Error loading model: {e}")
+    print(f"Error loading model from {MODEL_PATH}: {e}")
     model = None
 
 # Expected features based on the model's pipeline

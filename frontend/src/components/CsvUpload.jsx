@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import axios from 'axios'
 import { UploadCloud, FileSpreadsheet, Loader2, Download, X, Users, CheckCircle, XCircle, Info } from 'lucide-react'
-
+ 
 const VITE_API_URL = 'https://student-placement-prediction-qett.onrender.com'
 
 export default function CsvUpload() {
