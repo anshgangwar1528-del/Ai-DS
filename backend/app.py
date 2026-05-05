@@ -9,12 +9,10 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the actual model pipeline from a repo-relative path.
-BASE_DIR = os.path.dirname(__file__)
-MODEL_PATH = os.path.normpath(os.path.join(BASE_DIR, '..', 'Model', 'placement_model.pkl'))
 try:
-    model = joblib.load(MODEL_PATH)
+    model = joblib.load(open('Model/placement_model.pkl', 'rb'))
 except Exception as e:
-    print(f"Error loading model from {MODEL_PATH}: {e}")
+    print(f"Error loading model: {e}")
     model = None
 
 # Expected features based on the model's pipeline
@@ -117,4 +115,5 @@ def predict_csv():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
