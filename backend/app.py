@@ -6,7 +6,8 @@ import os
 import io
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://hiresense-n43o.onrender.com", "http://localhost:5173", "http://127.0.0.1:5173"]}})
+frontend_url = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+CORS(app, resources={r"/*": {"origins": [frontend_url, "https://hiresense-n43o.onrender.com", "http://127.0.0.1:5173"]}})
 
 # Load the actual model pipeline from a path relative to this script.
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

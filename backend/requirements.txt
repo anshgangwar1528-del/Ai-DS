@@ -6,3 +6,6 @@ joblib
 gunicorn
 openpyxl
 numpy<2.0.0
+# Add if not present:
+gunicorn
+python-dotenv
