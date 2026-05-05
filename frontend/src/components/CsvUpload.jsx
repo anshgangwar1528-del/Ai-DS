@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import axios from 'axios'
 import { UploadCloud, FileSpreadsheet, Loader2, Download, X, Users, CheckCircle, XCircle, Info } from 'lucide-react'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const VITE_API_URL = 'https://student-placement-prediction-qett.onrender.com'
 
 export default function CsvUpload() {
   const [file, setFile] = useState(null)
@@ -39,7 +39,7 @@ export default function CsvUpload() {
     formData.append('file', file)
 
     try {
-      const response = await axios.post(`${API_URL}/predict_csv`, formData)
+      const response = await axios.post(`${VITE_API_URL}/predict_csv`, formData)
       setResult(response.data)
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to process the dataset. Check format.')

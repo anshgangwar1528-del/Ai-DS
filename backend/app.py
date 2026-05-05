@@ -8,13 +8,13 @@ import io
 app = Flask(__name__)
 CORS(app)
 
-# Load the actual model pipeline
-# The model already contains a ColumnTransformer for preprocessing and an OrdinalEncoder
-MODEL_PATH = r"c:\Users\gangw\Desktop\Ai&DS\backend\Model\placement_model.pkl"
+# Load the actual model pipeline from a repo-relative path.
+BASE_DIR = os.path.dirname(__file__)
+MODEL_PATH = os.path.normpath(os.path.join(BASE_DIR, '..', 'Model', 'placement_model.pkl'))
 try:
     model = joblib.load(MODEL_PATH)
 except Exception as e:
-    print(f"Error loading model: {e}")
+    print(f"Error loading model from {MODEL_PATH}: {e}")
     model = None
 
 # Expected features based on the model's pipeline
@@ -117,4 +117,4 @@ def predict_csv():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
