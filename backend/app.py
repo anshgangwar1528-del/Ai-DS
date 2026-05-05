@@ -12,15 +12,18 @@ CORS(app)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, 'Model', 'placement_model.pkl')
 
+loading_error = None
 try:
     if os.path.exists(MODEL_PATH):
         model = joblib.load(open(MODEL_PATH, 'rb'))
         print(f"Model successfully loaded from {MODEL_PATH}")
     else:
-        print(f"Model file not found at {MODEL_PATH}")
+        loading_error = f"Model file not found at {MODEL_PATH}"
+        print(loading_error)
         model = None
 except Exception as e:
-    print(f"Error loading model from {MODEL_PATH}: {e}")
+    loading_error = str(e)
+    print(f"Error loading model from {MODEL_PATH}: {loading_error}")
     model = None
 
 # Expected features based on the model's pipeline
@@ -41,7 +44,10 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict_single():
     if model is None:
-        return jsonify({'error': 'Model is not loaded.'}), 500
+        return jsonify({
+            'error': 'Model is not loaded.',
+            'details': loading_error
+        }), 500
         
     try:
         data = request.json
@@ -73,7 +79,10 @@ def predict_single():
 @app.route('/predict_csv', methods=['POST'])
 def predict_csv():
     if model is None:
-        return jsonify({'error': 'Model is not loaded.'}), 500
+        return jsonify({
+            'error': 'Model is not loaded.',
+            'details': loading_error
+        }), 500
         
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
